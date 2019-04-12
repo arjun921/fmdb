@@ -14,7 +14,7 @@ Flask = "*"
 Jinja2 = "*"
 flask-user = "*"
 flask-babelex = "*"
-pymysql = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.7"
