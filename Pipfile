@@ -12,6 +12,8 @@ greenlet = "*"
 gunicorn = "*"
 Flask = "*"
 Jinja2 = "*"
+flask-user = "*"
+flask-babelex = "*"
 
 [requires]
 python_version = "3.7"
