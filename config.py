@@ -8,7 +8,7 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
     # Flask-SQLAlchemy settings
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']    # File-based SQL database
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///basic_app.sqlite'    # File-based SQL database
     SQLALCHEMY_TRACK_MODIFICATIONS = False    # Avoids SQLAlchemy warning
 
     # Flask-Mail SMTP server settings
@@ -31,6 +31,7 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('JAWSDB_URL')    # JawsDB SQL database for heroku
 
 
 class StagingConfig(Config):
