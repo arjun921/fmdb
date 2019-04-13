@@ -26,6 +26,9 @@ class Config(object):
     USER_EMAIL_SENDER_NAME = USER_APP_NAME
     USER_EMAIL_SENDER_EMAIL = "noreply@gmail.com"
 
+    # custom
+    BASE_DIR = basedir
+
 
 
 class ProductionConfig(Config):

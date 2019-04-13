@@ -32,11 +32,10 @@
                 <div class="nav-wrapper">
                   <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
                   <ul class="right hide-on-med-and-down">
-                      <!-- <p><a href="{{ url_for('member_page') }}">{%trans%}Member Page{%endtrans%}</a> </p> -->
-                    <!-- <p><a href="">{%trans%}Admin Page{%endtrans%}</a> (role_required: admin@example.com / Password1')</p> -->
-                    
+                    <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
                     <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
                     <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
+                    
                     {% if call_or_get(current_user.is_authenticated) %}
                         <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Manage Account<i class="material-icons right">arrow_drop_down</i></a></li>
                     {% else %}
