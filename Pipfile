@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
 
 [packages]
 gevent = "*"
@@ -14,6 +15,10 @@ Flask = "*"
 Jinja2 = "*"
 flask-user = "*"
 flask-babelex = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

@@ -1,7 +1,20 @@
-from flask import render_template,render_template_string,request
+import logging
+import logging.config
 import os
+import sqlite3
+from sqlite3 import Error
+
+from flask import render_template, render_template_string, request
+from flask_user import (UserManager, UserMixin, current_user, login_required,
+                        roles_required)
+
 from app import app
-from flask_user import current_user, login_required, roles_required, UserManager, UserMixin
+from utils.database import create_connection
+from utils.decorators import timeit
+from utils.helpers import log_line
+
+logger = logging.getLogger(__name__)
+
 
 
 # # Webservices
@@ -17,31 +30,24 @@ from flask_user import current_user, login_required, roles_required, UserManager
 #     return r
 
 
-
-# The Home page is accessible to anyone
+# web page routes
+@timeit
 @app.route('/')
 def home_page():
+    """The Home page is accessible to anyone"""
     return render_template('index.html')
 
-# The Members page is only accessible to authenticated users
+@timeit
 @app.route('/listing')
-@login_required    # Use of @login_required decorator
+@login_required
 def member_page():
+    """The listing page is only accessible to authenticated users"""
     return render_template("listing.html")
 
-# The Admin page requires an 'Admin' role.
+
+@timeit
 @app.route('/admin')
 @roles_required('Admin')    # Use of @roles_required decorator
 def admin_page():
-    return render_template_string("""
-            {% extends "flask_user_layout.html" %}
-            {% block content %}
-                <h2>{%trans%}Admin Page{%endtrans%}</h2>
-                <p><a href={{ url_for('user.register') }}>{%trans%}Register{%endtrans%}</a></p>
-                <p><a href={{ url_for('user.login') }}>{%trans%}Sign in{%endtrans%}</a></p>
-                <p><a href={{ url_for('home_page') }}>{%trans%}Home Page{%endtrans%}</a> (accessible to anyone)</p>
-                <p><a href={{ url_for('member_page') }}>{%trans%}Member Page{%endtrans%}</a> (login_required: member@example.com / Password1)</p>
-                <p><a href={{ url_for('admin_page') }}>{%trans%}Admin Page{%endtrans%}</a> (role_required: admin@example.com / Password1')</p>
-                <p><a href={{ url_for('user.logout') }}>{%trans%}Sign out{%endtrans%}</a></p>
-            {% endblock %}
-            """)
+    """The Admin page requires an 'Admin' role."""
+    return render_template('admin.html')
