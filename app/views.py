@@ -14,6 +14,17 @@ from utils.helpers import log_line
 logger = logging.getLogger(__name__)
 
 
+# @app.before_first_request
+# def initialize():
+#     global DB_URI
+#     DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
+
+# def db_connection():
+#     global connection
+#     global cur
+
+#     cur = connection.cursor()
+#     print("DB Connection successful.")
 
 # # Webservices
 # @app.route('/webhook', methods=['POST'])
