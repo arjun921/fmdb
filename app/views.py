@@ -49,15 +49,17 @@ def member_page():
     DB_URI = DB_URI.split('///')[1]
     db_conn = create_connection(DB_URI)
     movie_list = select_all(db_conn,'movie_data')
+    # for pagination
     page = int(query.get('p',"0"))
     num_items = int(query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
     start = page*num_items
     if start==0:
+        # if start zero, set slice end to number of items per page
         end = num_items
     else:
+        # increment end by page number
         end = start+(num_items)
     max_pages = floor(len(movie_list)/num_items)
-    print(len(movie_list))
     return render_template("listing.html",movie_list=movie_list[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list)
 
 
