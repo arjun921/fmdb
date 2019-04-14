@@ -57,15 +57,24 @@
     <div class="modal-content">
       <h4>Search</h4>
       <form action="#">
+        <p>Search by:</p>
         <p>
           <label>
-            <input name="group1" type="radio" checked />
+            <input id="search_Name" name="search_radio" onchange="auto_suggest_names(this.checked)" type="radio"
+              checked />
             <span>Name</span>
           </label>
         </p>
         <p>
           <label>
-            <input name="group1" type="radio" />
+            <input id="search_Director" name="search_radio" onchange="auto_suggest_directors(this.checked)"
+              type="radio" />
+            <span>Director</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input id="search_Genre" name="search_radio" onchange="auto_suggest_genres(this.checked)" type="radio" />
             <span>Genre</span>
           </label>
         </p>
@@ -73,9 +82,9 @@
           <div class="col s12">
             <div class="row">
               <div class="input-field col s12">
-                <i class="material-icons prefix">textsms</i>
+                <!-- <i class="material-icons prefix">search</i> -->
                 <input type="text" id="search-autocomplete-input" class="autocomplete">
-                <label for="search-autocomplete-input">Autocomplete</label>
+                <label for="search-autocomplete-input">Search</label>
               </div>
             </div>
           </div>
@@ -134,14 +143,52 @@
   {%if movie_list%}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var suggestions = {}
-      {% for movie in full_movie_list %}
-      suggestions['{{movie[-1]}}'] = null
-      {% endfor %}
-      var elem = document.getElementById('search-autocomplete-input')
-      var instance = M.Autocomplete.getInstance(elem);
-      instance.updateData(suggestions);
+      // Auto suggest movie names by default in search.
+      auto_suggest_names(true)
     });
+    // Functions with prepopulated jsons for autocomplete based on selected search option
+    function auto_suggest_names(condition) {
+        if (condition) {
+          var suggestions = {}
+          {% for movie in full_movie_list %}
+          // lorem picsum, can be replaced with relavant icons in search suggestions
+          suggestions['{{movie[-1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+          {% endfor %}
+          var elem = document.getElementById('search-autocomplete-input')
+          var instance = M.Autocomplete.getInstance(elem);
+          instance.updateData(suggestions);
+        }
+      }
+      function auto_suggest_genres(condition) {
+        if (condition) {
+          var suggestions = {}
+          {% for movie in full_movie_list %}
+          {% for genre in movie[2].split(',') %}
+          // lorem picsum, can be replaced with relavant icons in search suggestions
+          suggestions['{{genre}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+          {% endfor %}
+          {% endfor %}
+          var elem = document.getElementById('search-autocomplete-input')
+          var instance = M.Autocomplete.getInstance(elem);
+          instance.updateData(suggestions);
+        }
+      }
+
+      function auto_suggest_directors(condition) {
+        if (condition) {
+          var suggestions = {}
+          {% for movie in full_movie_list %}
+          // lorem picsum, can be replaced with relavant icons in search suggestions
+          suggestions['{{movie[1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+          {% endfor %}
+          var elem = document.getElementById('search-autocomplete-input')
+          var instance = M.Autocomplete.getInstance(elem);
+          instance.updateData(suggestions);
+        }
+      }
+
+      
+
   </script>
   {%endif%}
   {# *** Allow sub-templates to insert extra html to the bottom of the body *** #}

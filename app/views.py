@@ -44,14 +44,14 @@ def home_page():
 @login_required
 def member_page():
     """The listing page is only accessible to authenticated users.  Function in app.views"""
-    query = dict(request.args)
+    request_query = dict(request.args)
     DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
     DB_URI = DB_URI.split('///')[1]
     db_conn = create_connection(DB_URI)
     movie_list = select_all(db_conn,'movie_data')
     # for pagination
-    page = int(query.get('p',"0"))
-    num_items = int(query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
+    page = int(request_query.get('p',"0"))
+    num_items = int(request_query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
     start = page*num_items
     if start==0:
         # if start zero, set slice end to number of items per page
@@ -60,6 +60,8 @@ def member_page():
         # increment end by page number
         end = start+(num_items)
     max_pages = floor(len(movie_list)/num_items)
+    # if name in request_query or director in request_query or genre in request_query:
+
     return render_template("listing.html",movie_list=movie_list[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list)
 
 
