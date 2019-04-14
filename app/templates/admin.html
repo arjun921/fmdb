@@ -2,9 +2,154 @@
 {% block content %}
 <h4>{%trans%}Admin Page{%endtrans%}</h4>
 
-<ul class="collection with-header">
-    {%for movie in full_movie_list%}
-        <li class="collection-item"><div>{{movie}}<a href="#!" class="secondary-content meteor-text"><i class="material-icons" >delete</i></a></div></li>
+<table>
+    <thead>
+        <tr>
+            <th>{%trans%}ID{%endtrans%}</th>
+            <th>{%trans%}Title{%endtrans%}</th>
+            <th>{%trans%}Director{%endtrans%}</th>
+            <th>{%trans%}Genre{%endtrans%}</th>
+            <th>{%trans%}IMDB Rating{%endtrans%}</th>
+            <th>{%trans%}Popularity{%endtrans%}</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {%for movie in full_movie_list%}
+        <tr>
+            <td>{{movie[0]}}</td>
+            <td>{{movie[5]}}</td>
+            <td>{{movie[2]}}</td>
+            <td>{{movie[3]}}</td>
+            <td>{{movie[4]}}</td>
+            <td>{{movie[1]|int}}</td>
+            <td><a href="" onclick="delete_movie('{{movie[0]|int}}')" class="secondary-content meteor-text"><i
+                        class="material-icons">delete</i></a></td>
+        </tr>
+    </tbody>
     {%endfor%}
-</ul>
+</table>
+<div class="fixed-action-btn">
+    <a href="#add_movies" class="btn-floating btn-large red modal-trigger">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
+
+<!-- add movies Structure -->
+<div id="add_movies" class="modal">
+    <div class="modal-content">
+        <h4>{%trans%}Add Movie{%endtrans%}</h4>
+        <p>{%trans%}Please fill the following fields{%endtrans%}</p>
+    </div>
+    <div class="row">
+        <div class="input-field col s10 offset-s1">
+            <input id="movie_name" type="text" class="validate">
+            <label for="movie_name">Movie Name</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="director" type="text" class="validate">
+            <label for="director">Director</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="popularity" type="number" class="validate">
+            <label for="popularity">Popularity</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="chip_genres" type="text" class="validate">
+            <label for="chip_genres">Genres</label>
+            <!-- <div id="chip_genres" class="chips chips-autocomplete">Genres: </div> -->
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="imdb_score" type="text" class="validate">
+            <label for="imdb_score">IMDB Rating</label>
+        </div>
+
+    </div>
+    <button class="btn waves-effect waves-light" onclick="add_movie()"><a href="">Submit</a>
+        <i class="material-icons right">send</i>
+    </button>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">{%trans%}Close{%endtrans%}</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function delete_movie(id) {
+        var delete_confirmation = confirm("Are you sure you want to delete?");
+        if (delete_confirmation) {
+            url = '/manage/delete/' + id
+            type = 'DELETE'
+            data = { 'id': id }
+            success = function () {
+                M.toast({
+                    html: 'Deleted Succesfully', completeCallback: function () {
+                        location.reload();
+                    }
+                })
+            }
+            error = function () {
+                M.toast({
+                    html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
+                        location.reload();
+                    }
+                })
+            }
+            hitApi(url, type, data, success, error)
+        }
+
+    }
+
+    function add_movie() {
+        var url = '/manage/add'
+        var movie_name = document.getElementById('movie_name').value;
+        var director = document.getElementById('director').value;
+        var popularity = document.getElementById('popularity').value;
+        var chip_genres = document.getElementById('chip_genres').value;
+        var imdb_score = document.getElementById('imdb_score').value;
+        var data = {
+            'movie_name': movie_name,
+            'director': director,
+            'popularity': popularity,
+            'chip_genres': chip_genres,
+            'imdb_score': imdb_score
+        }
+        var type = 'POST'
+        var success = function () {
+            M.toast({
+                html: 'Movie Added Succesfully', completeCallback: function () {
+                    location.reload();
+                }
+            })
+        }
+        var error = function () {
+            M.toast({
+                html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
+                }
+            })
+        }
+        hitApi(url, type, data, success, error);
+    }
+
+    // document.onreadystatechange = function () {
+    //     if (document.readyState == "interactive") {
+    //         var instance = M.Chips.getInstance(document.getElementsByClassName('chips-autocomplete')[0]);
+    //         instance.autocompleteOptions = {
+    //             data: {
+    //                 'Documentary': null, 'Biography': null, 'Family': null, 
+    //                 'News': null, 'Fantasy': null, 'Film-Noir': null, 'Thriller': null, 
+    //                 'Sci-Fi': null, 'Horror': null, 'Talk-Show': null, 'Romance': null, 
+    //                 'Adventure': null, 'Action': null, 'Musical': null, 'Reality-TV': null, 
+    //                 'Adult': null, 'Short': null, 'Drama': null, 'Crime': null, 'Animation': null, 
+    //                 'War': null, 'Western': null, 'Sport': null, 'History': null, 'Mystery': null,
+    //                  'Comedy': null, 'Game-Show': null, 'Music': null
+    //             },
+    //             limit: Infinity,
+    //             minLength: 1
+    //         }
+    //     }
+    // }
+</script>
 {% endblock %}

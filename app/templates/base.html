@@ -64,6 +64,22 @@
       -webkit-box-shadow: 0 1px 0 0 #c31432;
       box-shadow: 0 1px 0 0 #c31432;
     }
+
+    input:not([type]):focus:not([readonly])+label,
+    input[type=text]:not(.browser-default):focus:not([readonly])+label,
+    input[type=password]:not(.browser-default):focus:not([readonly])+label,
+    input[type=email]:not(.browser-default):focus:not([readonly])+label,
+    input[type=url]:not(.browser-default):focus:not([readonly])+label,
+    input[type=time]:not(.browser-default):focus:not([readonly])+label,
+    input[type=date]:not(.browser-default):focus:not([readonly])+label,
+    input[type=datetime]:not(.browser-default):focus:not([readonly])+label,
+    input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label,
+    input[type=tel]:not(.browser-default):focus:not([readonly])+label,
+    input[type=number]:not(.browser-default):focus:not([readonly])+label,
+    input[type=search]:not(.browser-default):focus:not([readonly])+label,
+    textarea.materialize-textarea:focus:not([readonly])+label {
+      color: #c31432;
+    }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
@@ -86,7 +102,8 @@
         <div class="nav-wrapper">
           <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
           <ul class="right hide-on-med-and-down">
-            <li> <a class="waves-effect waves-light modal-trigger" href="#search"><i class="material-icons left">search</i>Search</a></li>
+            <li><a class="waves-effect waves-light modal-trigger" href="#search"><i
+                  class="material-icons left">search</i>{%trans%}Search{%endtrans%}</a></li>
             <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
             <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
             <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
@@ -192,6 +209,28 @@
       // Auto suggest movie names by default in search.
       auto_suggest_names(true)
     });
+    function hitApi(url, type, data, success = function () { }, error = function () { }) {
+      var xhr = new XMLHttpRequest(); // new HttpRequest instance
+      xhr.onreadystatechange = function () {
+        // The current state can be retrieved via `this.readyState`, which returns a value ranging
+        // from 0 to 4 (inclusive).
+        if (this.readyState == 4) { // If the HTTP request has completed
+          if (this.status == 200) { // If the HTTP response code is 200 (e.g. successful)
+            var response = this.responseText; // Retrieve the response text
+            console.log(response);
+            success(response, this.status);
+          }
+          else {
+            var response = this.responseText; // Retrieve the response text
+            error(response, this.status);
+          };
+        };
+      };
+      xhr.open(type, url);
+      xhr.setRequestHeader("Content-Type", "application/JSON");
+      xhr.send(JSON.stringify(data));
+    }
+
     // Functions with prepopulated jsons for autocomplete based on selected search option
     function auto_suggest_names(condition) {
       if (condition) {
@@ -209,7 +248,7 @@
       if (condition) {
         var suggestions = {}
         {% for movie in full_movie_list %}
-        {% for genre in movie[2].split(',') %}
+        {% for genre in movie[3].split(',') %}
         // lorem picsum, can be replaced with relavant icons in search suggestions
         suggestions['{{genre}}'] = 'https://picsum.photos/100?image={{loop.index}}'
         {% endfor %}
@@ -225,7 +264,7 @@
         var suggestions = {}
         {% for movie in full_movie_list %}
         // lorem picsum, can be replaced with relavant icons in search suggestions
-        suggestions['{{movie[1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+        suggestions['{{movie[2]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
         {% endfor %}
         var elem = document.getElementById('search-autocomplete-input')
         var instance = M.Autocomplete.getInstance(elem);

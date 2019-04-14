@@ -48,19 +48,23 @@
             </div>
             <div class="card-content">
                 <span class="card-title activator grey-text text-darken-4 truncate">{{value[-1]}}</span>
-                <p><a target="_blank" href="https://www.youtube.com/results?search_query={{'+'.join(value[-1].split(' '))+'+movie'+'+trailer'}}" class="red-text">View Trailer</a></p>
+                <p><a target="_blank"
+                        href="https://www.youtube.com/results?search_query={{'+'.join(value[-1].split(' '))+'+movie'+'+trailer'}}"
+                        class="red-text">View Trailer</a></p>
             </div>
             <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">{{value[-1]}}<i
                         class="material-icons right">close</i></span>
-                <p class="truncate">{%trans%}Director{%endtrans%}: {{value[1]}}</p>
-                <p class="truncate">IMDB Score: {{value[3]}}</p>
-                <p class="truncate">
-                    {%for genre in value[2].split(',')%}
-                    {%trans%}{{genre}}{%endtrans%},
+                <p>
+                    {%for genre in value[3].split(',')%}
+                    <div class="chip">
+                        {%trans%}{{genre}}{%endtrans%}
+                    </div>
                     {%endfor%}
                 </p>
-                <p class="truncate">{%trans%}Rating{%endtrans%}: {{value[0]}}</p>
+                <p class="truncate">{%trans%}Director{%endtrans%}: {{value[2]}}</p>
+                <p class="truncate">IMDB Score: {{value[4]}}</p>
+                <p class="truncate">{%trans%}Rating{%endtrans%}: {{value[1]}}</p>
             </div>
         </div>
 
