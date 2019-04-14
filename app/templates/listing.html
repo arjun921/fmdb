@@ -6,14 +6,17 @@
         <div class="col s12 m4 l3">
           <div class="card">
             <div class="card-image">
-              <img src="https://picsum.photos/200/300/?random">
+              <img src="https://picsum.photos/200/300?image={{loop.index}}">
               <span class="card-title">{{value[-1]}}</span>
             </div>
             <div class="card-content">
-              <p class="truncate">{{value}}</p>
+              <p class="truncate">{{value[0]}}</p>
+              <p class="truncate">{{value[1]}}</p>
+              <p class="truncate">{{value[2]}}</p>
+              <p class="truncate">{{value[3]}}</p>
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
+              <a href="#">View</a>
             </div>
           </div>
         </div>

@@ -32,6 +32,8 @@
                 <div class="nav-wrapper">
                   <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
                   <ul class="right hide-on-med-and-down">
+                      <li>  <a class="waves-effect waves-light modal-trigger" href="#modal1"><i class="material-icons left">search</i>Link with Left Icon</a></li>
+
                     <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
                     <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
                     <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
@@ -47,6 +49,30 @@
               </div>
             </nav>
           </div>
+          <div id="modal1" class="modal">
+              <div class="modal-content">
+                <h4>Search</h4>
+                <form action="#">
+                    <p>
+                      <label>
+                        <input name="group1" type="radio" checked />
+                        <span>Name</span>
+                      </label>
+                    </p>
+                    <p>
+                      <label>
+                        <input name="group1" type="radio" />
+                        <span>Yellow</span>
+                      </label>
+                    </p>
+                  </form>
+                        
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+              </div>
+            </div>
+                    
     {% endblock %}
     
 
