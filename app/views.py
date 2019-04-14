@@ -1,6 +1,7 @@
 import logging
 import logging.config
 import os
+from math import floor
 
 from flask import render_template, render_template_string, request
 from flask_user import (UserManager, UserMixin, current_user, login_required,
@@ -49,14 +50,14 @@ def member_page():
     db_conn = create_connection(DB_URI)
     movie_list = select_all(db_conn,'movie_data')
     page = int(query.get('p',"0"))
-    num_items = int(query.get('items',"20"))
+    num_items = int(query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
     start = page*num_items
     if start==0:
         end = num_items
     else:
         end = start+(num_items)
-    max_pages = round(len(movie_list)/num_items)
-    print(max_pages)
+    max_pages = floor(len(movie_list)/num_items)
+    print(len(movie_list))
     return render_template("listing.html",movie_list=movie_list[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list)
 
 

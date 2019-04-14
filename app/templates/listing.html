@@ -2,30 +2,37 @@
 {% block content %}
 <h4>{%trans%}Movies Listing{%endtrans%}</h4>
 <div class="row">
-        <center>
-            <ul class="pagination">
+    <center>
+        <ul class="pagination">
+            {%if (current_page-1)<0 %}
+            <li class="disabled"><a href=""><i class="material-icons">first_page</i></a></li>
+            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
 
-                {%if (current_page-1)<0 %}
-                    <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
-                {%else%}
-                    <li><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
-                {%endif%}
+            {%else%}
+            <li class="waves-effect"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
+            <li class="waves-effect"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+            {%endif%}
 
-                {%for x in range(0,current_page)%}
-                    <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
-                {%endfor%}
-                <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>                
-                {%for x in range(current_page+1,max_pages+1)%}
-                    <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
-                {%endfor%}
-                {%if (current_page)==max_pages %}
-                    <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
-                {%else%}
-                    <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a></li>
-                {%endif%}
-                
-              </ul>
-            </center>
+            {%for x in range(0,current_page)%}
+            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            {%endfor%}
+            <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>
+            {%for x in range(current_page+1,max_pages+1)%}
+            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            {%endfor%}
+            {%if (current_page)==max_pages %}
+            <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+            <li class="disabled"><a href=""><i class="material-icons">last_page</i></a></li>
+            {%else%}
+            <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a>
+            </li>
+            <li class="waves-effect"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
+            {%endif%}
+
+        </ul>
+    </center>
+</div>
+<div class="row">
     {%for value in movie_list%}
     <div class="col s12 m4 l3">
         <div class="card">
@@ -37,7 +44,7 @@
                 <p class="truncate">{%trans%}Director{%endtrans%}: {{value[1]}}</p>
                 <p class="truncate">IMDB Score: {{value[3]}}</p>
                 <p class="truncate">
-                    {%for genre in value[2].split(',')%}        
+                    {%for genre in value[2].split(',')%}
                     {%trans%}{{genre}}{%endtrans%},
                     {%endfor%}
                 </p>
@@ -49,5 +56,36 @@
         </div>
     </div>
     {%endfor%}
+</div>
+<div class="row">
+    <center>
+        <ul class="pagination">
+            {%if (current_page-1)<0 %}
+            <li class="disabled"><a href=""><i class="material-icons">first_page</i></a></li>
+            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+
+            {%else%}
+            <li class="waves-effect"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
+            <li class="waves-effect"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+            {%endif%}
+
+            {%for x in range(0,current_page)%}
+            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            {%endfor%}
+            <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>
+            {%for x in range(current_page+1,max_pages+1)%}
+            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            {%endfor%}
+            {%if (current_page)==max_pages %}
+            <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+            <li class="disabled"><a href=""><i class="material-icons">last_page</i></a></li>
+            {%else%}
+            <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a>
+            </li>
+            <li class="waves-effect"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
+            {%endif%}
+
+        </ul>
+    </center>
 </div>
 {% endblock %}
