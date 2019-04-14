@@ -63,7 +63,6 @@ def delete_by_id(conn, db, id):
 def create_by_id(conn, db, params):
     cur = conn.cursor()
     query = f"INSERT INTO movie_data(popularity,director,genre,imdb_score,name) VALUES ({float(params['popularity'])}, '{params['director']}','{params['chip_genres']}',{float(params['imdb_score'])},'{params['movie_name']}')"
-    print(query)
     cur.execute(query)
     conn.commit()
     conn.close()
