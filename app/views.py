@@ -8,7 +8,9 @@ from flask_user import (UserManager, UserMixin, current_user, login_required,
                         roles_required)
 
 from app import app
-from utils.database import create_connection, select_all, select_all_where_value_matches, select_all_with_similar_value
+from utils.database import (create_connection, select_all,
+                            select_all_where_value_matches,
+                            select_all_with_similar_value)
 from utils.decorators import timeit
 from utils.helpers import log_line
 
@@ -46,7 +48,6 @@ def member_page():
         search_results = select_all_with_similar_value(db_conn,db='movie_data',field='genre',matches=request_query['genre'])
         searched = True
     
-    print(request_query)
     # pagination
     page = int(request_query.get('p',"0"))
     num_items = int(request_query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
@@ -59,15 +60,14 @@ def member_page():
         # add number of items to start position
         end = start+(num_items)
     
+    #assign to common variable for reducing duplicate code
     if searched:
         render_movies = search_results
     else:
         render_movies = movie_list
 
     max_pages = floor(len(render_movies)/num_items)
-    
-    print(start,end)
-    return render_template("listing.html",movie_list=render_movies[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list,search_result_render=searched)
+    return render_template("listing.html",movie_list=render_movies[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list)
 
 
 
