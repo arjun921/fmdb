@@ -8,9 +8,9 @@ from flask_user import (UserManager, UserMixin, current_user, login_required,
                         roles_required)
 
 from app import app
-from utils.database import (create_connection, select_all,
-                            select_all_where_value_matches,
-                            select_all_with_similar_value, delete_by_id, create_by_id)
+from utils.database import (create_by_id, create_connection, delete_by_id,
+                            select_all, select_all_where_value_matches,
+                            select_all_with_similar_value)
 from utils.decorators import timeit
 from utils.helpers import log_line
 

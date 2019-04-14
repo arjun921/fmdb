@@ -1,8 +1,9 @@
+import logging
 import sqlite3
 from sqlite3 import Error
-import logging
-from utils.helpers import log_line
+
 from utils.decorators import timeit
+from utils.helpers import log_line
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +52,7 @@ def select_all_with_similar_value(conn, db, field, matches):
     return rows
 
 
+@timeit
 def delete_by_id(conn, db, id):
     cur = conn.cursor()
     query = f'DELETE FROM {db} WHERE id=?'
@@ -60,6 +62,7 @@ def delete_by_id(conn, db, id):
     return 'Success'
 
 
+@timeit
 def create_by_id(conn, db, params):
     cur = conn.cursor()
     query = f"INSERT INTO movie_data(popularity,director,genre,imdb_score,name) VALUES ({float(params['popularity'])}, '{params['director']}','{params['chip_genres']}',{float(params['imdb_score'])},'{params['movie_name']}')"
