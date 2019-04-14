@@ -21,7 +21,7 @@ def create_connection(db_uri):
 
 @timeit
 def select_all(conn, db):
-    """Creating db connection in utils.database"""
+    """Select all from db in utils.database"""
     cur = conn.cursor()
     cur.execute(f"SELECT * FROM {db}")
     rows = cur.fetchall()
@@ -31,7 +31,7 @@ def select_all(conn, db):
 
 @timeit
 def select_all_where_value_matches(conn, db, field, match_string):
-    """Creating db connection in utils.database"""
+    """Select all by condition in utils.database"""
     cur = conn.cursor()
     cur.execute(f'SELECT * FROM {db} WHERE {field}="{match_string}"')
     rows = cur.fetchall()
@@ -41,7 +41,7 @@ def select_all_where_value_matches(conn, db, field, match_string):
 
 @timeit
 def select_all_with_similar_value(conn, db, field, matches):
-    """Creating db connection in utils.database"""
+    """Select all where similar value matches in utils.database"""
     cur = conn.cursor()
     matches = matches.lower()
     matches = '%'+'%'.join(matches.split(' '))+'%'
@@ -54,6 +54,7 @@ def select_all_with_similar_value(conn, db, field, matches):
 
 @timeit
 def delete_by_id(conn, db, id):
+    """Delete row by id in utils.database"""
     cur = conn.cursor()
     query = f'DELETE FROM {db} WHERE id=?'
     cur.execute(query, (id,))
@@ -64,6 +65,7 @@ def delete_by_id(conn, db, id):
 
 @timeit
 def create_by_id(conn, db, params):
+    """Insert in db in utils.database"""
     cur = conn.cursor()
     query = f"INSERT INTO movie_data(popularity,director,genre,imdb_score,name) VALUES ({float(params['popularity'])}, '{params['director']}','{params['chip_genres']}',{float(params['imdb_score'])},'{params['movie_name']}')"
     cur.execute(query)

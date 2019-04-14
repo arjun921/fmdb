@@ -61,14 +61,17 @@
             <!-- <div id="chip_genres" class="chips chips-autocomplete">Genres: </div> -->
         </div>
         <div class="input-field col s10 offset-s1">
-            <input id="imdb_score" type="text" class="validate">
+            <input id="imdb_score" type="number" class="validate">
             <label for="imdb_score">IMDB Rating</label>
         </div>
-
     </div>
-    <button class="btn waves-effect waves-light" onclick="add_movie()"><a href="">Submit</a>
-        <i class="material-icons right">send</i>
-    </button>
+    <div class="row">
+            <div class="col offset-s1">
+                    <button class="btn meteor waves-effect waves-light" onclick="add_movie()">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+    </div>
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">{%trans%}Close{%endtrans%}</a>
     </div>
