@@ -56,44 +56,40 @@
   <div id="search" class="modal">
     <div class="modal-content">
       <h4>Search</h4>
-      <form action="#">
-        <p>Search by:</p>
-        <p>
-          <label>
-            <input id="search_Name" name="search_radio" onchange="auto_suggest_names(this.checked)" type="radio"
-              checked />
-            <span>Name</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input id="search_Director" name="search_radio" onchange="auto_suggest_directors(this.checked)"
-              type="radio" />
-            <span>Director</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input id="search_Genre" name="search_radio" onchange="auto_suggest_genres(this.checked)" type="radio" />
-            <span>Genre</span>
-          </label>
-        </p>
-        <div class="row">
-          <div class="col s12">
-            <div class="row">
-              <div class="input-field col s12">
-                <!-- <i class="material-icons prefix">search</i> -->
-                <input type="text" id="search-autocomplete-input" class="autocomplete">
-                <label for="search-autocomplete-input">Search</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
+      <p>Search by:</p>
+      <p>
+        <label>
+          <input id="search_radio_Name" name="search_radio" onchange="auto_suggest_names(this.checked)" type="radio"
+            checked />
+          <span>Name</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input id="search_radio_Director" name="search_radio" onchange="auto_suggest_directors(this.checked)"
+            type="radio" />
+          <span>Director</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input id="search_radio_Genre" name="search_radio" onchange="auto_suggest_genres(this.checked)"
+            type="radio" />
+          <span>Genre</span>
+        </label>
+      </p>
+      <div class="input-field col s12">
+        <!-- <i class="material-icons prefix">search</i> -->
+        <input type="text" id="search-autocomplete-input" class="autocomplete">
+        <label for="search-autocomplete-input">Search</label>
+      </div>
+      <button class="btn waves-effect waves-light" onclick="search()">Search
+        <i class="material-icons right">send</i>
+      </button>
 
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
 
@@ -140,7 +136,7 @@
       var search_field = M.Autocomplete.init(elems);
     });
   </script>
-  {%if movie_list%}
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Auto suggest movie names by default in search.
@@ -148,49 +144,75 @@
     });
     // Functions with prepopulated jsons for autocomplete based on selected search option
     function auto_suggest_names(condition) {
-        if (condition) {
-          var suggestions = {}
-          {% for movie in full_movie_list %}
-          // lorem picsum, can be replaced with relavant icons in search suggestions
-          suggestions['{{movie[-1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
-          {% endfor %}
-          var elem = document.getElementById('search-autocomplete-input')
-          var instance = M.Autocomplete.getInstance(elem);
-          instance.updateData(suggestions);
-        }
+      if (condition) {
+        var suggestions = {}
+        {% for movie in full_movie_list %}
+        // lorem picsum, can be replaced with relavant icons in search suggestions
+        suggestions['{{movie[-1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+        {% endfor %}
+        var elem = document.getElementById('search-autocomplete-input')
+        var instance = M.Autocomplete.getInstance(elem);
+        instance.updateData(suggestions);
       }
-      function auto_suggest_genres(condition) {
-        if (condition) {
-          var suggestions = {}
-          {% for movie in full_movie_list %}
-          {% for genre in movie[2].split(',') %}
-          // lorem picsum, can be replaced with relavant icons in search suggestions
-          suggestions['{{genre}}'] = 'https://picsum.photos/100?image={{loop.index}}'
-          {% endfor %}
-          {% endfor %}
-          var elem = document.getElementById('search-autocomplete-input')
-          var instance = M.Autocomplete.getInstance(elem);
-          instance.updateData(suggestions);
-        }
+    }
+    function auto_suggest_genres(condition) {
+      if (condition) {
+        var suggestions = {}
+        {% for movie in full_movie_list %}
+        {% for genre in movie[2].split(',') %}
+        // lorem picsum, can be replaced with relavant icons in search suggestions
+        suggestions['{{genre}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+        {% endfor %}
+        {% endfor %}
+        var elem = document.getElementById('search-autocomplete-input')
+        var instance = M.Autocomplete.getInstance(elem);
+        instance.updateData(suggestions);
+      }
+    }
+
+    function auto_suggest_directors(condition) {
+      if (condition) {
+        var suggestions = {}
+        {% for movie in full_movie_list %}
+        // lorem picsum, can be replaced with relavant icons in search suggestions
+        suggestions['{{movie[1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
+        {% endfor %}
+        var elem = document.getElementById('search-autocomplete-input')
+        var instance = M.Autocomplete.getInstance(elem);
+        instance.updateData(suggestions);
+      }
+    }
+
+    function search() {
+      search_body = {}
+      var search_radio_Name = document.getElementById('search_radio_Name')
+      var search_radio_Director = document.getElementById('search_radio_Director')
+      var search_radio_Genre = document.getElementById('search_radio_Genre')
+      var search_field = document.getElementById('search-autocomplete-input')
+      if (search_radio_Genre.checked) {
+        search_body['genre'] = search_field.value
+      }
+      else if (search_radio_Director.checked) {
+        search_body['director'] = search_field.value
+      } else {
+        search_body['name'] = search_field.value
       }
 
-      function auto_suggest_directors(condition) {
-        if (condition) {
-          var suggestions = {}
-          {% for movie in full_movie_list %}
-          // lorem picsum, can be replaced with relavant icons in search suggestions
-          suggestions['{{movie[1]}}'] = 'https://picsum.photos/100?image={{loop.index}}'
-          {% endfor %}
-          var elem = document.getElementById('search-autocomplete-input')
-          var instance = M.Autocomplete.getInstance(elem);
-          instance.updateData(suggestions);
+      function getAsUriParameters(data) {
+        var url = '';
+        for (var prop in data) {
+          url += encodeURIComponent(prop) + '=' +
+            encodeURIComponent(data[prop]) + '&';
         }
+        return url.substring(0, url.length - 1)
       }
+      window.location.href = '/listing?'+getAsUriParameters(search_body)
+    }
 
-      
+
 
   </script>
-  {%endif%}
+
   {# *** Allow sub-templates to insert extra html to the bottom of the body *** #}
   {% block extra_js %}{% endblock %}
 

@@ -26,17 +26,21 @@ def select_all(conn,db):
 
 
 @timeit
-def select_all_where_value_matches(conn,db,field,matches):
+def select_all_where_value_matches(conn,db,field,match_string):
     """Creating db connection in utils.database"""
     cur = conn.cursor()
-    cur.execute(f"SELECT * FROM {db} WHERE {field}={matches}")
+    cur.execute(f'SELECT * FROM {db} WHERE {field}="{match_string}"')
     rows = cur.fetchall()
     return rows
 
 @timeit
-def select_all_with_similar_value(conn,db,field,similar):
+def select_all_with_similar_value(conn,db,field,matches):
     """Creating db connection in utils.database"""
     cur = conn.cursor()
-    cur.execute(f"SELECT * FROM {db}")
+    matches = matches.lower()
+    matches = '%'+'%'.join(matches.split(' '))+'%'
+    query=f'SELECT * FROM {db} WHERE {field} like "{matches}"'
+    print(query)
+    cur.execute(query)
     rows = cur.fetchall()
     return rows

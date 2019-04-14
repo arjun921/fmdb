@@ -28,7 +28,7 @@ class Config(object):
 
     # custom
     BASE_DIR = basedir
-    MAX_LISTING_ITEMS = 20
+    MAX_LISTING_ITEMS = 15
 
 
 
