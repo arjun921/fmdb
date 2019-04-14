@@ -10,28 +10,28 @@
             <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
             <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="First page"><a
                     onclick="appendToQueryString('p',0)"><i class="material-icons">first_page</i></a></li>
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="top" data-tooltip="Previous page"><a
                     onclick="appendToQueryString('p',{{current_page-1}})"><i class="material-icons">chevron_left</i></a>
             </li>
             {%endif%}
 
             {%for x in range(0,current_page)%}
-            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
+            <li class="waves-effect waves-red"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
-            <li class="active indigo"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
+            <li class="active red"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
             {%for x in range(current_page+1,max_pages+1)%}
-            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
+            <li class="waves-effect waves-red"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
             {%if (current_page)==max_pages %}
             <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
             <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="top" data-tooltip="Next page"><a
                     onclick="appendToQueryString('p',{{current_page+1}})"><i
                         class="material-icons">chevron_right</i></a></li>
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="Last page"><a
                     onclick="appendToQueryString('p',{{max_pages}})"><i class="material-icons">last_page</i></a></li>
             {%endif%}
         </ul>
@@ -48,9 +48,7 @@
             </div>
             <div class="card-content">
                 <span class="card-title activator grey-text text-darken-4 truncate">{{value[-1]}}</span>
-                <p><a target="_blank"
-                        href="https://www.youtube.com/results?search_query={{'+'.join(value[-1].split(' '))+'+movie'+'+trailer'}}">View
-                        Trailer</a></p>
+                <p><a target="_blank" href="https://www.youtube.com/results?search_query={{'+'.join(value[-1].split(' '))+'+movie'+'+trailer'}}" class="red-text">View Trailer</a></p>
             </div>
             <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">{{value[-1]}}<i
@@ -81,28 +79,28 @@
             <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
             <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="First page"><a
                     onclick="appendToQueryString('p',0)"><i class="material-icons">first_page</i></a></li>
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="top" data-tooltip="Previous page"><a
                     onclick="appendToQueryString('p',{{current_page-1}})"><i class="material-icons">chevron_left</i></a>
             </li>
             {%endif%}
 
             {%for x in range(0,current_page)%}
-            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
+            <li class="waves-effect waves-red"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
-            <li class="active indigo"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
+            <li class="active red"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
             {%for x in range(current_page+1,max_pages+1)%}
-            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
+            <li class="waves-effect waves-red"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
             {%if (current_page)==max_pages %}
             <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
             <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="top" data-tooltip="Next page"><a
                     onclick="appendToQueryString('p',{{current_page+1}})"><i
                         class="material-icons">chevron_right</i></a></li>
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a
+            <li class="waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="Last page"><a
                     onclick="appendToQueryString('p',{{max_pages}})"><i class="material-icons">last_page</i></a></li>
             {%endif%}
         </ul>

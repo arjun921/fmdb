@@ -75,4 +75,17 @@ def member_page():
 @roles_required('Admin')    # Use of @roles_required decorator
 def admin_page():
     """The Admin page requires an 'Admin' role. Function in app.views"""
-    return render_template('admin.html')
+    DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
+    DB_URI = DB_URI.split('///')[1]
+    db_conn = create_connection(DB_URI)
+    
+    # select all for search autocomplete.
+    full_movie_list = select_all(db_conn,'movie_data')
+    return render_template('admin.html',full_movie_list=full_movie_list)
+
+
+# @app.route('/delete')
+# @roles_required('Admin')
+# def delete_entry():
+#     """DESTRUCTIVE FUNCTION AHEAD. Function in app.views"""
+    
