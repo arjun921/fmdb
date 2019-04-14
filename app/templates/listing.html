@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <h4>{%trans%}Movies Listing{%endtrans%}</h4>
-{%if max_pages>0%}
+{# *** pagination *** #}
+{%if max_pages>0 and movie_list|length >0%}
 <div class="row">
     <center>
         <ul class="pagination">
             {%if (current_page-1)<0 %}
             <li class="disabled"><a href=""><i class="material-icons">first_page</i></a></li>
             <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
-
             {%else%}
-            <li class="waves-effect"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
-            <li class="waves-effect"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
             {%endif%}
 
             {%for x in range(0,current_page)%}
@@ -25,9 +25,8 @@
             <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
             <li class="disabled"><a href=""><i class="material-icons">last_page</i></a></li>
             {%else%}
-            <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a>
-            </li>
-            <li class="waves-effect"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
             {%endif%}
 
         </ul>
@@ -35,9 +34,10 @@
 </div>
 {% endif %}
 <div class="row">
+    {%if movie_list|length >0%}
     {%for value in movie_list%}
-    <div class="col s12 m4 l3">
-        <div class="card">
+    <div class="col s12 m4 l4">
+        <!-- <div class="card">
             <div class="card-image">
                 <img src="https://picsum.photos/200/300?blur&?image={{loop.index+current_page}}">
                 <span class="card-title">{{value[-1]}}</span>
@@ -54,12 +54,39 @@
             </div>
             <div class="card-action">
                 <a href="#">View</a>
+            </div> -->
+        <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="https://picsum.photos/200/300?blur&?image={{loop.index+current_page}}">
+            </div>
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4 truncate">{{value[-1]}}</span>
+                <p><a target="_blank"
+                        href="https://www.youtube.com/results?search_query={{'+'.join(value[-1].split(' '))+'+movie'+'+trailer'}}">View
+                        Trailer</a></p>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">{{value[-1]}}<i
+                        class="material-icons right">close</i></span>
+                <p class="truncate">{%trans%}Director{%endtrans%}: {{value[1]}}</p>
+                <p class="truncate">IMDB Score: {{value[3]}}</p>
+                <p class="truncate">
+                    {%for genre in value[2].split(',')%}
+                    {%trans%}{{genre}}{%endtrans%},
+                    {%endfor%}
+                </p>
+                <p class="truncate">{%trans%}Rating{%endtrans%}: {{value[0]}}</p>
             </div>
         </div>
+
     </div>
     {%endfor%}
+    {%else%}
+    <p>{%trans%}No movies to show!{%endtrans%}</p>
+    <a href="/listing">Go back to list</a>
+    {%endif%}
 </div>
-{%if max_pages>0%}
+{%if max_pages>0 and movie_list|length >0%}
 <div class="row">
     <center>
         <ul class="pagination">

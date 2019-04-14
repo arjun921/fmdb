@@ -132,17 +132,17 @@
     });
   </script>
   {%if movie_list%}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          var suggestions = {}
-          {% for movie in movie_list%}
-            suggestions['{{movie[-1]}}'] = null
-          {%endfor%}
-          var elem = document.getElementById('search-autocomplete-input')
-          var instance = M.Autocomplete.getInstance(elem);
-          instance.updateData(suggestions);
-          });
-        </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var suggestions = {}
+      {% for movie in full_movie_list %}
+      suggestions['{{movie[-1]}}'] = null
+      {% endfor %}
+      var elem = document.getElementById('search-autocomplete-input')
+      var instance = M.Autocomplete.getInstance(elem);
+      instance.updateData(suggestions);
+    });
+  </script>
   {%endif%}
   {# *** Allow sub-templates to insert extra html to the bottom of the body *** #}
   {% block extra_js %}{% endblock %}
