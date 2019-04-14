@@ -1,117 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ user_manager.USER_APP_NAME }}</title>
 
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    media="screen,projection" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block extra_css %}{% endblock %}
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ user_manager.USER_APP_NAME }}</title>
+
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% block extra_css %}{% endblock %}
+</head>
 
 
 <body>
-    {% block body %}
-    {% block menu %}
-    <ul id="dropdown1" class="dropdown-content">
-            {% if call_or_get(current_user.is_authenticated) %}
-                <li><a href="{{ url_for('user.edit_user_profile') }}" class="truncate">{{ current_user.username or current_user.email }}</a></li>
-            {% endif %}
-            <li class="divider"></li>
-            <li><a href="{{ url_for('user.logout') }}">{%trans%}Sign out{%endtrans%}</a></li>
-          </ul>
-        <div class="navbar-fixed">
-            <nav class="indigo darken-2">
-              <div class="container">
-                <div class="nav-wrapper">
-                  <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
-                  <ul class="right hide-on-med-and-down">
-                      <li>  <a class="waves-effect waves-light modal-trigger" href="#modal1"><i class="material-icons left">search</i>Search</a></li>
+  {% block body %}
+  {% block menu %}
+  <ul id="dropdown1" class="dropdown-content">
+    {% if call_or_get(current_user.is_authenticated) %}
+    <li><a href="{{ url_for('user.edit_user_profile') }}"
+        class="truncate">{{ current_user.username or current_user.email }}</a></li>
+    {% endif %}
+    <li class="divider"></li>
+    <li><a href="{{ url_for('user.logout') }}">{%trans%}Sign out{%endtrans%}</a></li>
+  </ul>
+  <div class="navbar-fixed">
+    <nav class="indigo darken-2">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
+          <ul class="right hide-on-med-and-down">
+            <li> <a class="waves-effect waves-light modal-trigger" href="#search"><i
+                  class="material-icons left">search</i>Search</a></li>
 
-                    <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
-                    <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
-                    <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
-                    
-                    {% if call_or_get(current_user.is_authenticated) %}
-                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Account<i class="material-icons right">arrow_drop_down</i></a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('user.login') }}">Sign In</a></li>
-                    {% endif %}
-    
-                  </ul>
-                </div>
-              </div>
-            </nav>
-          </div>
-          <div id="modal1" class="modal">
-              <div class="modal-content">
-                <h4>Search</h4>
-                <form action="#">
-                    <p>
-                      <label>
-                        <input name="group1" type="radio" checked />
-                        <span>Name</span>
-                      </label>
-                    </p>
-                    <p>
-                      <label>
-                        <input name="group1" type="radio" />
-                        <span>Yellow</span>
-                      </label>
-                    </p>
-                  </form>
-                        
-              </div>
-              <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+            <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
+            <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
+            <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
+
+            {% if call_or_get(current_user.is_authenticated) %}
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Account<i
+                  class="material-icons right">arrow_drop_down</i></a></li>
+            {% else %}
+            <li><a href="{{ url_for('user.login') }}">Sign In</a></li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div id="search" class="modal">
+    <div class="modal-content">
+      <h4>Search</h4>
+      <form action="#">
+        <p>
+          <label>
+            <input name="group1" type="radio" checked />
+            <span>Name</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="group1" type="radio" />
+            <span>Genre</span>
+          </label>
+        </p>
+        <div class="row">
+          <div class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">textsms</i>
+                <input type="text" id="search-autocomplete-input" class="autocomplete">
+                <label for="search-autocomplete-input">Autocomplete</label>
               </div>
             </div>
-                    
-    {% endblock %}
-    
+          </div>
+        </div>
+      </form>
 
-    <div class="container">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+  {% endblock %}
+
+
+  <div class="container">
     {# One-time system messages called Flash messages #}
     {% block flash_messages %}
-        {%- with messages = get_flashed_messages(with_categories=true) -%}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if category=='error' %}
-                        {% set category='red' %}
-                    {% elif category=='success' %}
-                        {% set category='green' %}
-                    {% endif %}
-                    <div class="white-text card-panel {{category}}">{{ message|safe }}</div>
-                {% endfor %}
-            {% endif %}
-        {%- endwith %}
+    {%- with messages = get_flashed_messages(with_categories=true) -%}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category=='error' %}
+    {% set category='red' %}
+    {% elif category=='success' %}
+    {% set category='green' %}
+    {% endif %}
+    <div class="white-text card-panel {{category}}">{{ message|safe }}</div>
+    {% endfor %}
+    {% endif %}
+    {%- endwith %}
     {% endblock %}
 
     {% block main %}
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
     {% endblock %}
-    </div>
-    {% endblock %}
+  </div>
+  {% endblock %}
 
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    // alternative to DOMContentLoaded
+    document.onreadystatechange = function () {
+      if (document.readyState == "interactive") {
+        M.AutoInit();
+      }
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.autocomplete');
+      var search_field = M.Autocomplete.init(elems);
+    });
+  </script>
+  {%if movie_list%}
     <script>
-        // alternative to DOMContentLoaded
-        document.onreadystatechange = function () {
-        if (document.readyState == "interactive") {
-            M.AutoInit();
-        }
-        }
-    </script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var suggestions = {}
+          {% for movie in movie_list%}
+            suggestions['{{movie[-1]}}'] = null
+          {%endfor%}
+          var elem = document.getElementById('search-autocomplete-input')
+          var instance = M.Autocomplete.getInstance(elem);
+          instance.updateData(suggestions);
+          });
+        </script>
+  {%endif%}
+  {# *** Allow sub-templates to insert extra html to the bottom of the body *** #}
+  {% block extra_js %}{% endblock %}
 
-    {# *** Allow sub-templates to insert extra html to the bottom of the body *** #}
-    {% block extra_js %}{% endblock %}
+</body>
 
-  </body>
 </html>

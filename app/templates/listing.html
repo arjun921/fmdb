@@ -2,11 +2,35 @@
 {% block content %}
 <h4>{%trans%}Movies Listing{%endtrans%}</h4>
 <div class="row">
+        <center>
+            <ul class="pagination">
+
+                {%if (current_page-1)<0 %}
+                    <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+                {%else%}
+                    <li><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+                {%endif%}
+
+                {%for x in range(0,current_page)%}
+                    <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+                {%endfor%}
+                <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>                
+                {%for x in range(current_page+1,max_pages+1)%}
+                    <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+                {%endfor%}
+                {%if (current_page)==max_pages %}
+                    <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+                {%else%}
+                    <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a></li>
+                {%endif%}
+                
+              </ul>
+            </center>
     {%for value in movie_list%}
     <div class="col s12 m4 l3">
         <div class="card">
             <div class="card-image">
-                <img src="https://picsum.photos/200/300?blur&?image={{loop.index}}">
+                <img src="https://picsum.photos/200/300?blur&?image={{loop.index+current_page}}">
                 <span class="card-title">{{value[-1]}}</span>
             </div>
             <div class="card-content">
