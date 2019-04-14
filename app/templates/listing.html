@@ -7,28 +7,33 @@
     <center>
         <ul class="pagination">
             {%if (current_page-1)<0 %}
-            <li class="disabled"><a href=""><i class="material-icons">first_page</i></a></li>
-            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+            <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
+            <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a
+                    onclick="appendToQueryString('p',0)"><i class="material-icons">first_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a
+                    onclick="appendToQueryString('p',{{current_page-1}})"><i class="material-icons">chevron_left</i></a>
+            </li>
             {%endif%}
 
             {%for x in range(0,current_page)%}
-            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
-            <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>
+            <li class="active indigo"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
             {%for x in range(current_page+1,max_pages+1)%}
-            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
             {%if (current_page)==max_pages %}
-            <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
-            <li class="disabled"><a href=""><i class="material-icons">last_page</i></a></li>
+            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+            <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
             {%else%}
-            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a></li>
-            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a
+                    onclick="appendToQueryString('p',{{current_page+1}})"><i
+                        class="material-icons">chevron_right</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a
+                    onclick="appendToQueryString('p',{{max_pages}})"><i class="material-icons">last_page</i></a></li>
             {%endif%}
-
         </ul>
     </center>
 </div>
@@ -37,24 +42,6 @@
     {%if movie_list|length >0%}
     {%for value in movie_list%}
     <div class="col s12 m4 l4">
-        <!-- <div class="card">
-            <div class="card-image">
-                <img src="https://picsum.photos/200/300?blur&?image={{loop.index+current_page}}">
-                <span class="card-title">{{value[-1]}}</span>
-            </div>
-            <div class="card-content">
-                <p class="truncate">{%trans%}Director{%endtrans%}: {{value[1]}}</p>
-                <p class="truncate">IMDB Score: {{value[3]}}</p>
-                <p class="truncate">
-                    {%for genre in value[2].split(',')%}
-                    {%trans%}{{genre}}{%endtrans%},
-                    {%endfor%}
-                </p>
-                <p class="truncate">{%trans%}Rating{%endtrans%}: {{value[0]}}</p>
-            </div>
-            <div class="card-action">
-                <a href="#">View</a>
-            </div> -->
         <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
                 <img class="activator" src="https://picsum.photos/200/300?blur&?image={{loop.index+current_page}}">
@@ -91,30 +78,33 @@
     <center>
         <ul class="pagination">
             {%if (current_page-1)<0 %}
-            <li class="disabled"><a href=""><i class="material-icons">first_page</i></a></li>
-            <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
-
+            <li class="disabled"><a><i class="material-icons">first_page</i></a></li>
+            <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
             {%else%}
-            <li class="waves-effect"><a href="?p=0"><i class="material-icons">first_page</i></a></li>
-            <li class="waves-effect"><a href="?p={{current_page-1}}"><i class="material-icons">chevron_left</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="First page"><a
+                    onclick="appendToQueryString('p',0)"><i class="material-icons">first_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Previous page"><a
+                    onclick="appendToQueryString('p',{{current_page-1}})"><i class="material-icons">chevron_left</i></a>
+            </li>
             {%endif%}
 
             {%for x in range(0,current_page)%}
-            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
-            <li class="active indigo"><a href="?p={{current_page}}">{{current_page+1}}</a></li>
+            <li class="active indigo"><a onclick="appendToQueryString('p',{{current_page}})">{{current_page+1}}</a></li>
             {%for x in range(current_page+1,max_pages+1)%}
-            <li class="waves-effect"><a href="?p={{x}}">{{x+1}}</a></li>
+            <li class="waves-effect"><a onclick="appendToQueryString('p',{{x}})">{{x+1}}</a></li>
             {%endfor%}
             {%if (current_page)==max_pages %}
-            <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
-            <li class="disabled"><a href=""><i class="material-icons">last_page</i></a></li>
+            <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+            <li class="disabled"><a><i class="material-icons">last_page</i></a></li>
             {%else%}
-            <li class="waves-effect"><a href="?p={{current_page+1}}"><i class="material-icons">chevron_right</i></a>
-            </li>
-            <li class="waves-effect"><a href="?p={{max_pages}}"><i class="material-icons">last_page</i></a></li>
+            <li class="waves-effect tooltipped" data-position="top" data-tooltip="Next page"><a
+                    onclick="appendToQueryString('p',{{current_page+1}})"><i
+                        class="material-icons">chevron_right</i></a></li>
+            <li class="waves-effect tooltipped" data-position="bottom" data-tooltip="Last page"><a
+                    onclick="appendToQueryString('p',{{max_pages}})"><i class="material-icons">last_page</i></a></li>
             {%endif%}
-
         </ul>
     </center>
 </div>

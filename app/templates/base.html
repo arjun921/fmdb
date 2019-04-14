@@ -206,9 +206,28 @@
         }
         return url.substring(0, url.length - 1)
       }
-      window.location.href = '/listing?'+getAsUriParameters(search_body)
+      window.location.href = '/listing?' + getAsUriParameters(search_body)
     }
 
+    function appendToQueryString (param, val) {
+      var queryString = window.location.search.replace("?", "");
+      var parameterListRaw = queryString == "" ? [] : queryString.split("&");
+      var parameterList = {};
+      for (var i = 0; i < parameterListRaw.length; i++) {
+        var parameter = parameterListRaw[i].split("=");
+        parameterList[parameter[0]] = parameter[1];
+      }
+      parameterList[param] = val;
+
+      var newQueryString = "?";
+      for (var item in parameterList) {
+        if (parameterList.hasOwnProperty(item)) {
+          newQueryString += item + "=" + parameterList[item] + "&";
+        }
+      }
+      newQueryString = newQueryString.replace(/&$/, "");
+      location.href =  location.origin + location.pathname + newQueryString;
+    }
 
 
   </script>

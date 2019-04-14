@@ -46,6 +46,7 @@ def member_page():
         search_results = select_all_with_similar_value(db_conn,db='movie_data',field='genre',matches=request_query['genre'])
         searched = True
     
+    print(request_query)
     # pagination
     page = int(request_query.get('p',"0"))
     num_items = int(request_query.get('items',app.config.get('MAX_LISTING_ITEMS','50')))
@@ -65,7 +66,8 @@ def member_page():
 
     max_pages = floor(len(render_movies)/num_items)
     
-    return render_template("listing.html",movie_list=render_movies[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list)
+    print(start,end)
+    return render_template("listing.html",movie_list=render_movies[start:end],current_page=page,max_pages=max_pages,full_movie_list=movie_list,search_result_render=searched)
 
 
 
