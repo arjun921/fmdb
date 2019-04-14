@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <!-- trans tag translates embeded text to browserlocale -->
+{% if call_or_get(current_user.is_authenticated) %}
 <p>{%trans%}Login to  <a href="/listing">view movies listing</a>{%endtrans%}</p>
+{% else %}
+<p>{%trans%}<a href="/listing">view movies listing</a>{%endtrans%}</p>
+{% endif %}
+
 
 
 {% endblock %}

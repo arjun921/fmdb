@@ -21,7 +21,7 @@
     {% block menu %}
     <ul id="dropdown1" class="dropdown-content">
             {% if call_or_get(current_user.is_authenticated) %}
-                <li><a href="{{ url_for('user.edit_user_profile') }}">{{ current_user.username or current_user.email }}</a></li>
+                <li><a href="{{ url_for('user.edit_user_profile') }}" class="truncate">{{ current_user.username or current_user.email }}</a></li>
             {% endif %}
             <li class="divider"></li>
             <li><a href="{{ url_for('user.logout') }}">{%trans%}Sign out{%endtrans%}</a></li>
@@ -32,14 +32,14 @@
                 <div class="nav-wrapper">
                   <a href="{{ url_for('home_page') }}" class="brand-logo">{{ user_manager.USER_APP_NAME }}</a>
                   <ul class="right hide-on-med-and-down">
-                      <li>  <a class="waves-effect waves-light modal-trigger" href="#modal1"><i class="material-icons left">search</i>Link with Left Icon</a></li>
+                      <li>  <a class="waves-effect waves-light modal-trigger" href="#modal1"><i class="material-icons left">search</i>Search</a></li>
 
                     <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
                     <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
                     <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
                     
                     {% if call_or_get(current_user.is_authenticated) %}
-                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Manage Account<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Account<i class="material-icons right">arrow_drop_down</i></a></li>
                     {% else %}
                     <li><a href="{{ url_for('user.login') }}">Sign In</a></li>
                     {% endif %}
