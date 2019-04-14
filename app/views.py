@@ -102,7 +102,17 @@ def delete_entry(id):
 @app.route('/manage/add', methods=['POST'])
 @roles_required('Admin')
 def add_movie_entry():
-    """DESTRUCTIVE FUNCTION AHEAD. Function in app.views"""
+    """Add new movie using the following JSON structure.
+    ---
+    {
+        'movie_name': 'STR',
+        'director': 'STR',
+        'popularity': 'FLOAT',
+        'chip_genres': 'STR',
+        'imdb_score': 'FLOAT'
+    }
+    ---
+     Function in app.views"""
     req_body = request.get_json(silent=True, force=True)
     DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
     DB_URI = DB_URI.split('///')[1]
