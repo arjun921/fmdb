@@ -3,6 +3,12 @@ IMDB like movie db using flask.
 
 Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.com/)
 
+### Built using
+- python3
+- flask
+- sqlite3
+
+
 ## API
 
 ### General Users
@@ -93,7 +99,7 @@ One of the possible DB options to switch to would be AWS Aurora (*MySQL*)
   - Fully Managed
   - Auto-scaling
   - Compatible with MySQL
-  - 5x throughput compared to standard MySQL db
+  - 5x higher throughput compared to standard MySQL db
 
 #### Web Server
 
@@ -101,12 +107,12 @@ One of the biggest bottlenecks in performance would be the `web-server` that ser
 
 Candidates for a faster async web framework include:
 
-- Sanic
-- Vibora
+- **Sanic**
+- **Vibora**
 
 > ##### Vibora seems like the perfect candidate judging the [benchmarks](https://vibora.io/#benchmarks). 
 
-Benchmarks show Vibora to be significantly faster than Sanic so, I would pick Vibora as a replacement for flask. 
+Benchmarks show **Vibora** to be **significantly faster** than Sanic so, I would pick Vibora as a replacement for flask. 
 
 *Why didn't you build it using Vibora in the first place?*
 
@@ -116,6 +122,6 @@ Large part of this project was developed during a 9 hour journey by train. Spott
 
 Apart from improving service level performance, another way to handle more load is by scaling out all microservices as and when the load comes in. 
 
-Kubernetes can be used to orchestrate docker containers for our application to spin up `db`  and `web-server` containers depending on the load. 
+**Kubernetes** can be used to orchestrate **docker** containers for our application to spin up `db` and `web-server` containers depending on the load. 
 
 Using kubernetes helps reduce a lot of the sys-ops overhead as it takes care of the scaling out all `microservices` as well as `load balancing` while ensuring the most optimal use for our infrastructure.
