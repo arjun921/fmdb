@@ -103,7 +103,7 @@ def add_movie_entry():
         'movie_name': 'STR',
         'director': 'STR',
         'popularity': 'FLOAT',
-        'chip_genres': 'STR',
+        'genres': 'STR',
         'imdb_score': 'FLOAT'
     }
     ---
@@ -131,7 +131,7 @@ def update_movie_entry():
         'movie_name': 'STR',
         'director': 'STR',
         'popularity': 'FLOAT',
-        'chip_genres': 'STR',
+        'genres': 'STR',
         'imdb_score': 'FLOAT'
     }
     ---
