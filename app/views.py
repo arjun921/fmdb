@@ -12,7 +12,7 @@ from utils.database import (create_by_id, create_connection, delete_by_id,
                             select_all, select_all_where_value_matches,
                             select_all_with_similar_value)
 from utils.decorators import timeit
-from utils.helpers import log_line
+from utils.helpers import log_line,str_special_char_strip
 
 logger = logging.getLogger(__name__)
 
@@ -37,24 +37,29 @@ def member_page():
     movie_list = select_all(db_conn, 'movie_data')
     searched = False
 
+    db_conn = create_connection(DB_URI)
     # search
+    # regex used to remove special characters for db sanity
     if 'name' in request_query:
+        clean_search_string = str_special_char_strip(request_query['name'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='name', matches=request_query['name'])
+            db_conn, db='movie_data', field='name', matches=clean_search_string)
         searched = True
     elif 'director' in request_query:
+        clean_search_string = str_special_char_strip(request_query['director'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='director', matches=request_query['director'])
+            db_conn, db='movie_data', field='director', matches=clean_search_string)
         searched = True
     elif 'genre' in request_query:
+        clean_search_string = str_special_char_strip(request_query['genre'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='genre', matches=request_query['genre'])
+            db_conn, db='movie_data', field='genre', matches=clean_search_string)
         searched = True
 
     # pagination
     page = int(request_query.get('p', "0"))
-    num_items = int(request_query.get(
-        'items', app.config.get('MAX_LISTING_ITEMS', '50')))
+    default_num_items = app.config.get('MAX_LISTING_ITEMS', '30')
+    num_items = int(request_query.get('items', default_num_items))
     start = page*num_items
 
     if start == 0:
@@ -102,7 +107,7 @@ def delete_entry(id):
 @app.route('/manage/add', methods=['POST'])
 @roles_required('Admin')
 def add_movie_entry():
-    """Add new movie using the following JSON structure.
+    """Add new movie using the following JSON body.
     ---
     {
         'movie_name': 'STR',
@@ -114,9 +119,17 @@ def add_movie_entry():
     ---
      Function in app.views"""
     req_body = request.get_json(silent=True, force=True)
+    # removing special characters for db sanity
+    req_body_clean = {
+        'movie_name': str_special_char_strip(req_body['movie_name']),
+        'director': str_special_char_strip(req_body['director']),
+        'popularity': str_special_char_strip(req_body['popularity']),
+        'chip_genres': str_special_char_strip(req_body['chip_genres']),
+        'imdb_score': str_special_char_strip(req_body['imdb_score'])
+    }
     DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
     DB_URI = DB_URI.split('///')[1]
     db_conn = create_connection(DB_URI)
-    returned = create_by_id(db_conn, 'movie_data', req_body)
+    returned = create_by_id(db_conn, 'movie_data', req_body_clean)
     if returned == 'Success':
         return 'Success'
