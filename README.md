@@ -36,11 +36,11 @@ Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.co
   
     ```json
     {
-        'movie_name': 'STR',
-        'director': 'STR',
-        'popularity': 'FLOAT',
-        'chip_genres': 'STR',
-        'imdb_score': 'FLOAT'
+        "movie_name": "STR",
+        "director": "STR",
+        "popularity": "FLOAT",
+        "chip_genres": "STR",
+        "imdb_score": "FLOAT"
     }
     ```
 
@@ -52,12 +52,12 @@ Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.co
 
       ```json
       {
-          'id': 'INT',
-          'movie_name': 'STR',
-          'director': 'STR',
-          'popularity': 'FLOAT',
-          'chip_genres': 'STR',
-          'imdb_score': 'FLOAT'
+          "id": "INT",
+          "movie_name": "STR",
+          "director": "STR",
+          "popularity": "FLOAT",
+          "chip_genres": "STR",
+          "imdb_score": "FLOAT"
       }
       ```
 
