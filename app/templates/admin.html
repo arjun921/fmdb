@@ -86,7 +86,7 @@
     </div>
     <div class="row">
         <div class="input-field col s10 offset-s1">
-            <input id="update_movie_id" type="text" class="validate disabled">
+            <input id="update_movie_id" type="text" class="validate" disabled>
             <label for="update_movie_id">Movie ID</label>
         </div>
         <div class="input-field col s10 offset-s1">
@@ -157,32 +157,40 @@
         var popularity = document.getElementById('popularity').value;
         var genres = document.getElementById('genres').value;
         var imdb_score = document.getElementById('imdb_score').value;
-        var data = {
-            'movie_name': movie_name,
-            'director': director,
-            'popularity': popularity,
-            'genres': genres,
-            'imdb_score': imdb_score
+        if (movie_name!='' && director !='' && popularity !='' && genres !='' && imdb_score !='') {
+            var data = {
+                'movie_name': movie_name,
+                'director': director,
+                'popularity': popularity,
+                'genres': genres,
+                'imdb_score': imdb_score
+            }
+            var type = 'POST'
+            var success = function () {
+                M.toast({
+                    html: 'Movie Added Succesfully', completeCallback: function () {
+                        location.reload();
+                    }
+                })
+            }
+            var error = function () {
+                M.toast({
+                    html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
+                    }
+                })
+            }
+            hitApi(url, type, data, success, error);
         }
-        var type = 'POST'
-        var success = function () {
+        else {
             M.toast({
-                html: 'Movie Added Succesfully', completeCallback: function () {
-                    location.reload();
+                html: 'Empty values are not allowed!', completeCallback: function () {
                 }
             })
         }
-        var error = function () {
-            M.toast({
-                html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
-                }
-            })
-        }
-        hitApi(url, type, data, success, error);
     }
 
     function fill_existing_values(id) {
-        console.log('filled existing values for '+id)
+        console.log('filled existing values for ' + id)
         var update_movie_id = document.getElementById('update_movie_id')
         var update_movie_name = document.getElementById('update_movie_name')
         var update_director = document.getElementById('update_director')
@@ -208,29 +216,37 @@
         var update_popularity = document.getElementById('update_popularity').value;
         var update_genres = document.getElementById('update_genres').value;
         var update_imdb_score = document.getElementById('update_imdb_score').value;
-        var data = {
-            'id': update_movie_id,
-            'movie_name': update_movie_name,
-            'director': update_director,
-            'popularity': update_popularity,
-            'genres': update_genres,
-            'imdb_score': update_imdb_score
+        if (update_movie_name!='' && update_director !='' && update_popularity !='' && update_genres !='' && update_imdb_score !='') {
+            var data = {
+                'id': update_movie_id,
+                'movie_name': update_movie_name,
+                'director': update_director,
+                'popularity': update_popularity,
+                'genres': update_genres,
+                'imdb_score': update_imdb_score
+            }
+            var type = 'POST'
+            var success = function () {
+                M.toast({
+                    html: 'Movie Updated Succesfully', completeCallback: function () {
+                        location.reload();
+                    }
+                })
+            }
+            var error = function () {
+                M.toast({
+                    html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
+                    }
+                })
+            }
+            hitApi(url, type, data, success, error);
         }
-        var type = 'POST'
-        var success = function () {
+        else {
             M.toast({
-                html: 'Movie Updated Succesfully', completeCallback: function () {
-                    location.reload();
+                html: 'Empty values are not allowed!', completeCallback: function () {
                 }
             })
         }
-        var error = function () {
-            M.toast({
-                html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
-                }
-            })
-        }
-        hitApi(url, type, data, success, error);
     }
 
 </script>

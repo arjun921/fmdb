@@ -23,4 +23,4 @@ def log_line(logger,level='debug',msg='',trace=False,exit=True, extras={}):
         logger.debug(msg,exc_info=trace)
 
 def str_special_char_strip(string):
-    return re.sub('[{}"\'\/~@#$%*=\[\]<>| ]+', '', string)
+    return re.sub('[{}"\'\/~@#$%*=\[\]<>|]+', '', string)
