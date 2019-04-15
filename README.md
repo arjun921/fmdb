@@ -118,6 +118,10 @@ Benchmarks show **Vibora** to be **significantly faster** than Sanic so, I would
 
 Large part of this project was developed during a 9 hour journey by train. Spotty internet connection and time constrains made me stick to the skills I already knew.
 
+> Currently, the flask app has been deployed using Gunicorn WSGI server with GEVENT workers to support async requests.
+
+*Horizontal scaling* is possible with the current(flask-based) architecture without jumping ship to Sanic or Vibora by using `NGINX` as a load balancer and running multiple Gunicorn servers. 
+
 ### Scaling the whole stack
 
 Apart from improving service level performance, another way to handle more load is by scaling out all microservices as and when the load comes in. 
