@@ -5,6 +5,7 @@
 <table>
     <thead>
         <tr>
+            <th></th>
             <th>{%trans%}ID{%endtrans%}</th>
             <th>{%trans%}Title{%endtrans%}</th>
             <th>{%trans%}Director{%endtrans%}</th>
@@ -17,7 +18,9 @@
 
     <tbody>
         {%for movie in full_movie_list%}
-        <tr>
+        <tr id="movie_id_{{movie[0]}}">
+            <td onclick="fill_existing_values('movie_id_{{movie[0]}}')"><a href="#update_movies"
+                    class="secondary-content meteor-text modal-trigger"><i class="material-icons">edit</i></a></td>
             <td>{{movie[0]}}</td>
             <td>{{movie[5]}}</td>
             <td>{{movie[2]}}</td>
@@ -56,9 +59,8 @@
             <label for="popularity">Popularity</label>
         </div>
         <div class="input-field col s10 offset-s1">
-            <input id="chip_genres" type="text" class="validate">
-            <label for="chip_genres">Genres</label>
-            <!-- <div id="chip_genres" class="chips chips-autocomplete">Genres: </div> -->
+            <input id="genres" type="text" class="validate">
+            <label for="genres">Genres</label>
         </div>
         <div class="input-field col s10 offset-s1">
             <input id="imdb_score" type="number" class="validate">
@@ -66,11 +68,54 @@
         </div>
     </div>
     <div class="row">
-            <div class="col offset-s1">
-                    <button class="btn meteor waves-effect waves-light" onclick="add_movie()">Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
+        <div class="col offset-s1">
+            <button class="btn meteor waves-effect waves-light" onclick="add_movie()">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">{%trans%}Close{%endtrans%}</a>
+    </div>
+</div>
+
+<div id="update_movies" class="modal">
+    <div class="modal-content">
+        <h4>{%trans%}Add Movie{%endtrans%}</h4>
+        <p>{%trans%}Please fill the following fields{%endtrans%}</p>
+    </div>
+    <div class="row">
+        <div class="input-field col s10 offset-s1">
+            <input id="update_movie_id" type="text" class="validate disabled">
+            <label for="update_movie_id">Movie ID</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="update_movie_name" type="text" class="validate">
+            <label for="update_movie_name">Movie Name</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="update_director" type="text" class="validate">
+            <label for="update_director">Director</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="update_popularity" type="number" class="validate">
+            <label for="update_popularity">Popularity</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="update_genres" type="text" class="validate">
+            <label for="update_genres">Genres</label>
+        </div>
+        <div class="input-field col s10 offset-s1">
+            <input id="update_imdb_score" type="number" class="validate">
+            <label for="update_imdb_score">IMDB Rating</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col offset-s1">
+            <button class="btn meteor waves-effect waves-light" onclick="update_movie()">Submit
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat">{%trans%}Close{%endtrans%}</a>
@@ -110,13 +155,13 @@
         var movie_name = document.getElementById('movie_name').value;
         var director = document.getElementById('director').value;
         var popularity = document.getElementById('popularity').value;
-        var chip_genres = document.getElementById('chip_genres').value;
+        var genres = document.getElementById('genres').value;
         var imdb_score = document.getElementById('imdb_score').value;
         var data = {
             'movie_name': movie_name,
             'director': director,
             'popularity': popularity,
-            'chip_genres': chip_genres,
+            'genres': genres,
             'imdb_score': imdb_score
         }
         var type = 'POST'
@@ -136,23 +181,57 @@
         hitApi(url, type, data, success, error);
     }
 
-    // document.onreadystatechange = function () {
-    //     if (document.readyState == "interactive") {
-    //         var instance = M.Chips.getInstance(document.getElementsByClassName('chips-autocomplete')[0]);
-    //         instance.autocompleteOptions = {
-    //             data: {
-    //                 'Documentary': null, 'Biography': null, 'Family': null, 
-    //                 'News': null, 'Fantasy': null, 'Film-Noir': null, 'Thriller': null, 
-    //                 'Sci-Fi': null, 'Horror': null, 'Talk-Show': null, 'Romance': null, 
-    //                 'Adventure': null, 'Action': null, 'Musical': null, 'Reality-TV': null, 
-    //                 'Adult': null, 'Short': null, 'Drama': null, 'Crime': null, 'Animation': null, 
-    //                 'War': null, 'Western': null, 'Sport': null, 'History': null, 'Mystery': null,
-    //                  'Comedy': null, 'Game-Show': null, 'Music': null
-    //             },
-    //             limit: Infinity,
-    //             minLength: 1
-    //         }
-    //     }
-    // }
+    function fill_existing_values(id) {
+        console.log('filled existing values for '+id)
+        var update_movie_id = document.getElementById('update_movie_id')
+        var update_movie_name = document.getElementById('update_movie_name')
+        var update_director = document.getElementById('update_director')
+        var update_popularity = document.getElementById('update_popularity')
+        var update_genres = document.getElementById('update_genres')
+        var update_imdb_score = document.getElementById('update_imdb_score')
+        var movie_tb_row = document.getElementById(id)
+        var row_children = movie_tb_row.children
+        update_movie_id.value = row_children[1].innerHTML
+        update_movie_name.value = row_children[2].innerHTML
+        update_director.value = row_children[3].innerHTML
+        update_popularity.value = row_children[6].innerHTML
+        update_genres.value = row_children[4].innerHTML
+        update_imdb_score.value = row_children[5].innerHTML
+        M.updateTextFields();
+    }
+
+    function update_movie() {
+        var url = '/manage/update'
+        var update_movie_id = document.getElementById('update_movie_id').value;
+        var update_movie_name = document.getElementById('update_movie_name').value;
+        var update_director = document.getElementById('update_director').value;
+        var update_popularity = document.getElementById('update_popularity').value;
+        var update_genres = document.getElementById('update_genres').value;
+        var update_imdb_score = document.getElementById('update_imdb_score').value;
+        var data = {
+            'id': update_movie_id,
+            'movie_name': update_movie_name,
+            'director': update_director,
+            'popularity': update_popularity,
+            'genres': update_genres,
+            'imdb_score': update_imdb_score
+        }
+        var type = 'POST'
+        var success = function () {
+            M.toast({
+                html: 'Movie Updated Succesfully', completeCallback: function () {
+                    location.reload();
+                }
+            })
+        }
+        var error = function () {
+            M.toast({
+                html: 'Something went wrong. Please try again after some time.', completeCallback: function () {
+                }
+            })
+        }
+        hitApi(url, type, data, success, error);
+    }
+
 </script>
 {% endblock %}

@@ -8,9 +8,9 @@ from flask_user import (UserManager, UserMixin, current_user, login_required,
                         roles_required)
 
 from app import app
-from utils.database import (create_by_id, create_connection, delete_by_id,
+from utils.database import (insert_record, create_connection, delete_by_id,
                             select_all, select_all_where_value_matches,
-                            select_all_with_similar_value)
+                            select_all_with_similar_value,update_record)
 from utils.decorators import timeit
 from utils.helpers import log_line,str_special_char_strip
 
@@ -29,31 +29,27 @@ def home_page():
 def member_page():
     """The listing page is only accessible to authenticated users.  Function in app.views"""
     request_query = dict(request.args)
-    DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
-    DB_URI = DB_URI.split('///')[1]
-    db_conn = create_connection(DB_URI)
 
     # select all for search autocomplete.
-    movie_list = select_all(db_conn, 'movie_data')
+    movie_list = select_all(db='movie_data')
     searched = False
 
-    db_conn = create_connection(DB_URI)
     # search
     # regex used to remove special characters for db sanity
     if 'name' in request_query:
         clean_search_string = str_special_char_strip(request_query['name'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='name', matches=clean_search_string)
+            db='movie_data', field='name', matches=clean_search_string)
         searched = True
     elif 'director' in request_query:
         clean_search_string = str_special_char_strip(request_query['director'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='director', matches=clean_search_string)
+            db='movie_data', field='director', matches=clean_search_string)
         searched = True
     elif 'genre' in request_query:
         clean_search_string = str_special_char_strip(request_query['genre'])
         search_results = select_all_with_similar_value(
-            db_conn, db='movie_data', field='genre', matches=clean_search_string)
+            db='movie_data', field='genre', matches=clean_search_string)
         searched = True
 
     # pagination
@@ -83,12 +79,9 @@ def member_page():
 @roles_required('Admin')    # Use of @roles_required decorator
 def admin_page():
     """The Admin page requires an 'Admin' role. Function in app.views"""
-    DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
-    DB_URI = DB_URI.split('///')[1]
-    db_conn = create_connection(DB_URI)
 
     # select all for search autocomplete.
-    full_movie_list = select_all(db_conn, 'movie_data')
+    full_movie_list = select_all(db='movie_data')
     return render_template('admin.html', full_movie_list=full_movie_list)
 
 
@@ -96,10 +89,7 @@ def admin_page():
 @roles_required('Admin')
 def delete_entry(id):
     """DESTRUCTIVE FUNCTION AHEAD. Function in app.views"""
-    DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
-    DB_URI = DB_URI.split('///')[1]
-    db_conn = create_connection(DB_URI)
-    returned = delete_by_id(db_conn, 'movie_data', id)
+    returned = delete_by_id(db='movie_data',id=id)
     if returned == 'Success':
         return 'Success'
 
@@ -124,12 +114,38 @@ def add_movie_entry():
         'movie_name': str_special_char_strip(req_body['movie_name']),
         'director': str_special_char_strip(req_body['director']),
         'popularity': str_special_char_strip(req_body['popularity']),
-        'chip_genres': str_special_char_strip(req_body['chip_genres']),
+        'genres': str_special_char_strip(req_body['genres']),
         'imdb_score': str_special_char_strip(req_body['imdb_score'])
     }
-    DB_URI = app.config['SQLALCHEMY_DATABASE_URI']
-    DB_URI = DB_URI.split('///')[1]
-    db_conn = create_connection(DB_URI)
-    returned = create_by_id(db_conn, 'movie_data', req_body_clean)
+    returned = insert_record(db='movie_data',params=req_body_clean)
+    if returned == 'Success':
+        return 'Success'
+
+@app.route('/manage/update', methods=['POST'])
+@roles_required('Admin')
+def update_movie_entry():
+    """Update movie using the following JSON body.
+    ---
+    {   
+        'id': 'INT'
+        'movie_name': 'STR',
+        'director': 'STR',
+        'popularity': 'FLOAT',
+        'chip_genres': 'STR',
+        'imdb_score': 'FLOAT'
+    }
+    ---
+    Function in app.views"""
+    req_body = request.get_json(silent=True, force=True)
+    # removing special characters for db sanity
+    req_body_clean = {
+        'id': str_special_char_strip(req_body['id']),
+        'movie_name': str_special_char_strip(req_body['movie_name']),
+        'director': str_special_char_strip(req_body['director']),
+        'popularity': str_special_char_strip(req_body['popularity']),
+        'genres': str_special_char_strip(req_body['genres']),
+        'imdb_score': str_special_char_strip(req_body['imdb_score'])
+    }
+    returned = update_record(db='movie_data',params=req_body_clean)
     if returned == 'Success':
         return 'Success'
