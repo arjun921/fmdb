@@ -1,10 +1,11 @@
 # FMDB
 IMDB like movie db using flask.
 
-#### API
+## API
+
+### General Users
 
 - `/listing`
-
   - Request type: `GET`
   - Accessible to all `signed-in` users
   - Queries Supported
@@ -14,41 +15,39 @@ IMDB like movie db using flask.
     - `?p=1` - Page number for pagination
     - `?items=50` - Number of items to return per page
 
-- `/admin`
+### Admin only
 
+- `/admin`
   - Request type: `GET`
-  - `ADMIN` group users only
+  - Shows listing all movies list for management(edit/delete)
 
 - `/manage/delete/<int:id>`
 
   - Request type: `DELETE`
-  - `ADMIN` group users only
+  - Delete movie by `id`
 
 - `/manage/add`
 
   - Request type: `POST`
 
-  - `ADMIN` group users only
-
   - Request body
 
     - ```json
-      {
-        'movie_name': 'STR',
-        'director': 'STR',
-        'popularity': 'FLOAT',
-        'chip_genres': 'STR',
-        'imdb_score': 'FLOAT'
-      }
+    {
+      'movie_name': 'STR',
+      'director': 'STR',
+      'popularity': 'FLOAT',
+      'chip_genres': 'STR',
+      'imdb_score': 'FLOAT'
+    }
       ```
 
-- 
 
-#### Search
+## Search
 
-Search works by filtering results within the `/listing` endpoint. 
+Search works by filtering in `/listing` endpoint. 
 
-Supported `GET` request parameters:
+Search via `GET` request parameters:
 
 - Movie Title
   - `/listing?name=Star`
@@ -57,4 +56,5 @@ Supported `GET` request parameters:
 - Genre
   - `/listing?genre=Thriller`
 
-Search supports autocomplete when inside a page that requires authentication to access
+Search supports **autocomplete** as long as user is inside a page *accessible after authentication*. This isn't a bug, it is a feature. Autocomplete can be added to all pages without authentication.
+
