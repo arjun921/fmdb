@@ -93,13 +93,14 @@ If lets say, some day this application becomes too famous and we get a lot of vi
 
 The first step would be switching from `Sqlite` to a higher performance DB. Currently the implementation is using `sqlite` for test purposes.  
 
-One of the possible DB options to switch to would be AWS Aurora (*MySQL*)
+One of the possible DB options to switch to would be AWS Aurora
 
 - Reasons for choosing:
   - Fully Managed
   - Auto-scaling
-  - Compatible with MySQL
+  - Compatible with MySQL applications without any modifications
   - 5x higher throughput compared to standard MySQL db
+  - Optional serverless for completely automatic vertical/horizontal scaling
 
 #### Web Server
 
