@@ -2,7 +2,7 @@
 
 {% block content %}
 {% from "flask_user/_macros.html" import render_field, render_checkbox_field, render_submit_field %}
-<h1>{%trans%}Sign in{%endtrans%}</h1>
+<h4>{%trans%}Sign in{%endtrans%}</h4>
 
 <form action="" method="POST" class="form" role="form">
     {{ form.hidden_tag() }}
@@ -53,10 +53,10 @@
         {% endif %}
     </div>
 
-    {# Remember me #}
+    <!-- {# Remember me #}
     {% if user_manager.USER_ENABLE_REMEMBER_ME %}
     {{ render_checkbox_field(login_form.remember_me, tabindex=130) }}
-    {% endif %}
+    {% endif %} -->
 
     {# Submit button #}
     {{ render_submit_field(form.submit, tabindex=180) }}

@@ -29,7 +29,6 @@ def home_page():
 def member_page():
     """The listing page is only accessible to authenticated users.  Function in app.views"""
     request_query = dict(request.args)
-
     # select all for search autocomplete.
     movie_list = select_all(db='movie_data')
     searched = False
@@ -149,3 +148,4 @@ def update_movie_entry():
     returned = update_record(db='movie_data',params=req_body_clean)
     if returned == 'Success':
         return 'Success'
+

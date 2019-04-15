@@ -14,7 +14,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    .meteor {
+    .btn, .btn-large, .btn-small, .meteor {
       background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
     }
 
@@ -105,13 +105,14 @@
             <li><a class="waves-effect waves-light modal-trigger" href="#search"><i
                   class="material-icons left">search</i>{%trans%}Search{%endtrans%}</a></li>
             <li><a href="{{ url_for('member_page') }}">{%trans%}View List{%endtrans%}</a></li>
-            <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
-            <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
+
 
             {% if call_or_get(current_user.is_authenticated) %}
+            <li><a href="{{ url_for('admin_page') }}">{%trans%}Admin Page{%endtrans%}</a></li>
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Account<i
                   class="material-icons right">arrow_drop_down</i></a></li>
             {% else %}
+            <li><a href="{{ url_for('user.register') }}">{%trans%}Register{%endtrans%}</a></li>
             <li><a href="{{ url_for('user.login') }}">Sign In</a></li>
             {% endif %}
 
