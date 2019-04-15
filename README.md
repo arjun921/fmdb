@@ -82,9 +82,9 @@ Search supports **autocomplete** as long as user is inside a page *accessible af
 
 If lets say, some day this application becomes too famous and we get a lot of visitors on a daily basis; here are the following steps I would take to handle the traffic.
 
-### Scaling each component
+### Scaling each service
 
-#### DB Scaling
+#### Database
 
 The first step would be switching from `Sqlite` to a higher performance DB. Currently the implementation is using `sqlite` for test purposes.  
 
@@ -96,7 +96,7 @@ One of the possible DB options to switch to would be AWS Aurora (*MySQL*)
   - Compatible with MySQL
   - 5x throughput compared to standard MySQL db
 
-#### Server Scaling
+#### Web Server
 
 One of the biggest bottlenecks in performance would be the `web-server` that serves the app. To ensure it can handle the large volume of requests, we need to switch to a faster, asynchronous framework.
 
