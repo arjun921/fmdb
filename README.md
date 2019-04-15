@@ -1,6 +1,8 @@
 # FMDB
 IMDB like movie db using flask.
 
+Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.com/)
+
 ## API
 
 ### General Users
@@ -34,13 +36,31 @@ IMDB like movie db using flask.
 
     - ```json
     {
-      'movie_name': 'STR',
-      'director': 'STR',
-      'popularity': 'FLOAT',
-      'chip_genres': 'STR',
-      'imdb_score': 'FLOAT'
+        'movie_name': 'STR',
+        'director': 'STR',
+        'popularity': 'FLOAT',
+        'chip_genres': 'STR',
+        'imdb_score': 'FLOAT'
     }
       ```
+
+- `/manage/update`
+
+  - Request type: `POST`
+
+  - Request body
+
+    - ```json
+      {
+        'id': 'INT',
+        'movie_name': 'STR',
+        'director': 'STR',
+        'popularity': 'FLOAT',
+        'chip_genres': 'STR',
+        'imdb_score': 'FLOAT'
+      }
+      ```
+
 
 
 ## Search
@@ -58,3 +78,45 @@ Search via `GET` request parameters:
 
 Search supports **autocomplete** as long as user is inside a page *accessible after authentication*. This isn't a bug, it is a feature. Autocomplete can be added to all pages without authentication.
 
+## Scaling
+
+If lets say, some day this application becomes too famous and we get a lot of visitors on a daily basis; here are the following steps I would take to handle the traffic.
+
+### Scaling each component
+
+#### DB Scaling
+
+The first step would be switching from `Sqlite` to a higher performance DB. Currently the implementation is using `sqlite` for test purposes.  
+
+One of the possible DB options to switch to would be AWS Aurora (*MySQL*)
+
+- Reasons for choosing:
+  - Fully Managed
+  - Auto-scaling
+  - Compatible with MySQL
+  - 5x throughput compared to standard MySQL db
+
+#### Server Scaling
+
+One of the biggest bottlenecks in performance would be the `web-server` that serves the app. To ensure it can handle the large volume of requests, we need to switch to a faster, asynchronous framework.
+
+Candidates for a faster web framework include:
+
+- Sanic
+- Vibora
+
+> ##### Vibora seems like the perfect candidate going by the numbers.
+
+Benchmarks show Vibora to be significantly faster than Sanic so, I would pick Vibora as a replacement for flask. 
+
+*Why didn't you build it using Vibora in the first place?*
+
+Large part of this project was developed during a 9 hour journey by train. Spotty internet connection and time constrains made me stick to the skills I already knew.
+
+### Scaling the whole stack
+
+Apart from improving service level performance, another way to handle more load is by scaling out all microservices as and when the load comes in. 
+
+Kubernetes can be used to orchestrate docker containers for our application to spin up `db`  and `web-server` containers depending on the load. 
+
+Using kubernetes helps reduce a lot of the sys-ops overhead as it takes care of the scaling out all `microservices` as well as `load balancing` while ensuring the most optimal use for our infrastructure.
