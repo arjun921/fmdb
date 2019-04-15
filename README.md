@@ -33,8 +33,8 @@ Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.co
   - Request type: `POST`
 
   - Request body
-
-    - ```json
+  
+    ```json
     {
         'movie_name': 'STR',
         'director': 'STR',
@@ -42,7 +42,7 @@ Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.co
         'chip_genres': 'STR',
         'imdb_score': 'FLOAT'
     }
-      ```
+    ```
 
 - `/manage/update`
 
@@ -50,17 +50,16 @@ Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.co
 
   - Request body
 
-    - ```json
+      ```json
       {
-        'id': 'INT',
-        'movie_name': 'STR',
-        'director': 'STR',
-        'popularity': 'FLOAT',
-        'chip_genres': 'STR',
-        'imdb_score': 'FLOAT'
+          'id': 'INT',
+          'movie_name': 'STR',
+          'director': 'STR',
+          'popularity': 'FLOAT',
+          'chip_genres': 'STR',
+          'imdb_score': 'FLOAT'
       }
       ```
-
 
 
 ## Search
@@ -100,12 +99,12 @@ One of the possible DB options to switch to would be AWS Aurora (*MySQL*)
 
 One of the biggest bottlenecks in performance would be the `web-server` that serves the app. To ensure it can handle the large volume of requests, we need to switch to a faster, asynchronous framework.
 
-Candidates for a faster web framework include:
+Candidates for a faster async web framework include:
 
 - Sanic
 - Vibora
 
-> ##### Vibora seems like the perfect candidate going by the numbers.
+> ##### Vibora seems like the perfect candidate judging the [benchmarks](https://vibora.io/#benchmarks). 
 
 Benchmarks show Vibora to be significantly faster than Sanic so, I would pick Vibora as a replacement for flask. 
 
