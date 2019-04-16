@@ -3,6 +3,11 @@ IMDB like movie db using flask.
 
 Heroku hosted endpoint: [https://fimdb.herokuapp.com](https://fimdb.herokuapp.com/)
 
+### Features
+- Movie listing with Material Design
+- Locale based page Translations (not thoroughly tested)
+- Search by movie Title, Director, Genres (supports auto-complete)
+
 ### Built using
 - python3
 - flask
