@@ -5,7 +5,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY','asd3qe12adse12315safas')
     # Flask-SQLAlchemy settings
     SQLALCHEMY_DATABASE_URI = 'sqlite:////{}'.format(basedir)+'/data/application.db'    # File-based SQL database
     SQLALCHEMY_TRACK_MODIFICATIONS = False    # Avoids SQLAlchemy warning
