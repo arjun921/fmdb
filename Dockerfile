@@ -1,8 +1,4 @@
-FROM ubuntu:16.04
-
-RUN apt-get update -y && \
-    apt-get install -y python3-minimal \
-        python3-pip
+FROM python:3.7.3-stretch
 
 # We copy just the requirements.txt first to leverage Docker cache
 # COPY ./requirements.txt /app/requirements.txt
@@ -20,7 +16,7 @@ RUN pipenv install
 
 COPY . /app
 
-WORKDIR /app
+EXPOSE 5000
 
 # gunicorn app:app -k gevent -w 4
 # CMD ["gunicorn", \
@@ -30,7 +26,3 @@ WORKDIR /app
 #     "-w", "4" ]
 
 CMD ["pipenv", "run", "python3", "run.py"]
-# RUN pipenv run python3 run.py
-# ENTRYPOINT [ "python3" ]
-
-# CMD [ "run.py" ]
