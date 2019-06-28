@@ -18,13 +18,13 @@ logger = logging.getLogger(__name__)
 
 
 # web page routes
-@app.route('/')
+@app.route('/fmdb/')
 def home_page():
     """The Home page is accessible to anyone. Function in app.views"""
     return render_template('index.html')
 
 
-@app.route('/listing')
+@app.route('/fmdb/listing')
 @login_required
 def member_page():
     """The listing page is only accessible to authenticated users.  Function in app.views"""
@@ -74,7 +74,7 @@ def member_page():
     return render_template("listing.html", movie_list=render_movies[start:end], current_page=page, max_pages=max_pages, full_movie_list=movie_list)
 
 
-@app.route('/admin')
+@app.route('/fmdb/admin')
 @roles_required('Admin')    # Use of @roles_required decorator
 def admin_page():
     """The Admin page requires an 'Admin' role. Function in app.views"""
@@ -84,7 +84,7 @@ def admin_page():
     return render_template('admin.html', full_movie_list=full_movie_list)
 
 
-@app.route('/manage/delete/<int:id>', methods=['DELETE'])
+@app.route('/fmdb/manage/delete/<int:id>', methods=['DELETE'])
 @roles_required('Admin')
 def delete_entry(id):
     """DESTRUCTIVE FUNCTION AHEAD. Function in app.views"""
@@ -93,7 +93,7 @@ def delete_entry(id):
         return 'Success'
 
 
-@app.route('/manage/add', methods=['POST'])
+@app.route('/fmdb/manage/add', methods=['POST'])
 @roles_required('Admin')
 def add_movie_entry():
     """Add new movie using the following JSON body.
@@ -120,7 +120,7 @@ def add_movie_entry():
     if returned == 'Success':
         return 'Success'
 
-@app.route('/manage/update', methods=['POST'])
+@app.route('/fmdb/manage/update', methods=['POST'])
 @roles_required('Admin')
 def update_movie_entry():
     """Update movie using the following JSON body.
